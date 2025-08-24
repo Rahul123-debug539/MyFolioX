@@ -116,7 +116,7 @@ nav {
     display: block;
     width: 25px;
     height: 3px;
-    margin: 5px auto;
+    margin: 2px 2px;
     background-color: white;
     transition: all 0.3s ease;
 }

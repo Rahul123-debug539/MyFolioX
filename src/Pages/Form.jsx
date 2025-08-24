@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './Generate.css';
+import { useParams, useNavigate,Link } from "react-router-dom";
+import '../CSS/Generate.css';
 
-export default function Generator() {
+
+export default function Form() {
     const [formData, setFormData] = useState({
         Name: '',
         Bio: '',
@@ -69,6 +71,9 @@ export default function Generator() {
         }
     });
 
+    const navigate = useNavigate();
+    const {id} = useParams();
+
     // Generic function to update nested state
     const updateNestedValue = (path, value) => {
         setFormData(prev => {
@@ -90,7 +95,7 @@ export default function Generator() {
         setFormData(prev => {
             const selectedKey = type === 'tech' ? 'selectedTechSkills' : 'selectedSoftSkills';
             const skillsArray = [...prev.skill[selectedKey]];
-            
+
             if (isChecked) {
                 skillsArray.push(skill);
             } else {
@@ -153,10 +158,15 @@ export default function Generator() {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
-        // Here you would typically send the data to an API
-        alert('Resume data saved successfully!');
+        // console.log('Form Data:', formData);
+        // // Here you would typically send the data to an API
+        // alert('Resume data saved successfully!');
+
+        navigate(`/template${id}`, {
+            state: formData  // pass full object here
+        });
     };
+
 
     return (
         <div className="resume-generator">
@@ -197,7 +207,7 @@ export default function Generator() {
                 {/* Education Section */}
                 <section className="form-section">
                     <h2>Education</h2>
-                    
+
                     <div className="education-level">
                         <h3>Secondary School (10th)</h3>
                         <div className="form-group">
@@ -370,7 +380,7 @@ export default function Generator() {
                 {/* Skills Section */}
                 <section className="form-section">
                     <h2>Skills</h2>
-                    
+
                     <div className="skills-container">
                         <div className="skills-column">
                             <h3>Technical Skills</h3>
@@ -387,7 +397,7 @@ export default function Generator() {
                                 ))}
                             </div>
                         </div>
-                        
+
                         <div className="skills-column">
                             <h3>Soft Skills</h3>
                             <div className="skills-checkbox-group">
@@ -412,15 +422,15 @@ export default function Generator() {
                     {formData.projects.map((project, index) => (
                         <div key={index} className="project-card">
                             <h3>Project {index + 1}</h3>
-                            <button 
-                                type="button" 
-                                className="remove-project" 
+                            <button
+                                type="button"
+                                className="remove-project"
                                 onClick={() => removeProject(index)}
                                 disabled={formData.projects.length === 1}
                             >
                                 Remove
                             </button>
-                            
+
                             <div className="form-group">
                                 <label>Project Title</label>
                                 <input
@@ -430,7 +440,7 @@ export default function Generator() {
                                     placeholder="Project title"
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Description</label>
                                 <textarea
@@ -440,7 +450,7 @@ export default function Generator() {
                                     rows="3"
                                 />
                             </div>
-                            
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Technologies Used</label>
@@ -461,7 +471,7 @@ export default function Generator() {
                                     />
                                 </div>
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Image URL (optional)</label>
                                 <input
@@ -473,7 +483,7 @@ export default function Generator() {
                             </div>
                         </div>
                     ))}
-                    
+
                     <button type="button" className="add-project" onClick={addProject}>
                         Add Another Project
                     </button>
@@ -502,7 +512,7 @@ export default function Generator() {
                             />
                         </div>
                     </div>
-                    
+
                     <div className="form-group">
                         <label>Location</label>
                         <input
@@ -512,7 +522,7 @@ export default function Generator() {
                             placeholder="Your location"
                         />
                     </div>
-                    
+
                     <div className="form-row">
                         <div className="form-group">
                             <label>GitHub Profile</label>
@@ -533,7 +543,7 @@ export default function Generator() {
                             />
                         </div>
                     </div>
-                    
+
                     <div className="form-row">
                         <div className="form-group">
                             <label>Twitter Profile</label>
@@ -560,6 +570,8 @@ export default function Generator() {
                     <button type="submit" className="submit-btn">Final Submit</button>
                 </div>
             </form>
+
         </div>
     );
+
 }
